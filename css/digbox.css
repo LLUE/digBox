@@ -1,0 +1,167 @@
+/*弹框 go*/
+.digButton{
+	box-shadow: 0px -2px 5px 0px rgba(8,9,31,0.02);
+	position: fixed;
+	bottom: 0px;
+	width:100%;
+	box-sizing: border-box;
+	z-index: 10;
+	background: #fff;
+}
+.digbtnWp{
+	padding: 10px 20px;
+}
+.digButton .submitBtn{
+	display:block;
+	width:100%;
+	padding: 10px 0;
+	margin: 0;
+	font-size: 16px;
+	text-transform: capitalize;
+}
+.digBoxMak{
+	position: fixed;
+	top: 50%;
+	left:50%;
+	height: 1500px;
+	width: 1500px;
+	border-radius: 50%;
+	transform: translate(-50%,-50%) scale(1);
+
+	background: rgba(0,0,0,.5);
+	opacity: 0;
+	transition: all .5s;
+	z-index: -1;
+}
+.makblock{
+	opacity: 1;
+	z-index: 7;
+}
+.blur{
+	filter: blur(2px);
+}
+.dig-hd{
+	overflow: hidden;
+	position: relative;
+
+	padding: 15px 60px 10px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    border-bottom: 1px solid #f1f2f4;
+}
+.dig-hd.chj{
+	padding: 15px 100px 10px;
+
+}
+.dig-hd-lef{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	padding-top: 17px;
+	font-size: 14px;
+	color: #aaa;
+	text-transform: capitalize;
+}
+.dig-hd-rig{
+	position: absolute;
+	right: 10px;
+	top: 17px;
+	font-size: 14px;
+	color: #aaa;
+	text-transform: capitalize;
+}
+.dig-hd-rig .bids{
+	font-size: 14px;
+	color: #eb9f18;
+}
+.dig-hd-til{
+	font-size: 16px;
+	color: #333;
+	text-align: center;
+	text-transform: capitalize;
+}
+.dig-bd{
+	padding: 15px 20px 50px;
+	max-height: calc(65vh);
+	overflow: hidden;
+	overflow-y: auto;
+}
+.digBox{
+	position: fixed;
+	transform: translate(0,100%);
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+	z-index: 9;
+	padding-bottom: 52px;
+	border-radius: 15px 15px 0 0;
+	opacity: .5;
+}
+
+.animated {
+    -webkit-animation-duration: .5s;
+    -moz-animation-duration: .5s;
+    -o-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+@-webkit-keyframes digboxUp {
+    0% {
+        -webkit-transform: translate(0,100%);
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: translate(0,0);
+        opacity: 1;
+    }
+}
+@keyframes digboxUp {
+    0% {
+        transform: translate(0,100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0,0);
+        opacity: 1;
+    }
+}
+.animated.digboxUp {
+-webkit-animation-name: digboxUp;
+-moz-animation-name: digboxUp;
+-o-animation-name: digboxUp;
+animation-name: digboxUp;
+}
+@-webkit-keyframes digboxDown {
+    0% {
+        -webkit-transform: translate(0,0);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: translate(0,100%);
+        opacity: 0;
+    }
+}
+@keyframes digboxDown {
+    0% {
+        transform: translate(0,0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0,100%);
+        opacity: 0;
+    }
+}
+.animated.digboxDown {
+-webkit-animation-name: digboxDown;
+-moz-animation-name: digboxDown;
+-o-animation-name: digboxDown;
+animation-name: digboxDown;
+}
+/*弹框 end*/
