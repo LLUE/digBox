@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>盒子底部弹框</title>
+    <link rel="stylesheet" href="./css/digbox.css">
+    <style>
+        .box{
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .btn{
+            margin: 0 20px;
+            padding: 10px 30px;
+
+        }
+        .btn1{
+            width: 100%;
+            padding: 10px 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>底部弹框示例</h2>
+        <p>底部按钮：点击弹框</p>
+        <button class="btn btn2" d-box="box2">这是按钮2</button>
+        <button class="btn btn3" d-box="box3" d-show="true">这是按钮3</button>
+    </div>
+    
+    <button class="btn btn1" d-box="box1"></button>
+    <!-- 弹窗1 -go -->
+    <div class="digBox animated displayonly" d-module="box1">
+        <div class="dig-hd chj">
+            <div class="dig-hd-lef">取消</div>
+            <div class="dig-hd-til">弹窗1111</div>
+            <div class="dig-hd-rig">总计 <span class="bids">12</span> 条</div>
+        </div>
+        <div class="dig-bd" style="padding-top: 10px">
+           这是按钮111的弹框
+        </div>
+    </div>
+    <!-- 弹窗2 -go -->
+    <div class="digBox animated displayonly" d-module="box2">
+        <div class="dig-hd chj">
+            <div class="dig-hd-lef">取消</div>
+            <div class="dig-hd-til">弹窗2222</div>
+            <div class="dig-hd-rig">总计 <span class="bids">12</span> 条</div>
+        </div>
+        <div class="dig-bd" style="padding-top: 10px">
+            这是按钮222的弹框内容
+        </div>
+    </div>
+    <!-- 弹窗3 -go -->
+    <div class="digBox animated displayonly" d-module="box3">
+        <div class="dig-hd chj">
+            <div class="dig-hd-lef">取消</div>
+            <div class="dig-hd-til">弹窗3333</div>
+            <div class="dig-hd-rig">总计 <span class="bids">3</span> 条</div>
+        </div>
+        <div class="dig-bd" style="padding-top: 10px">
+            这是按钮333的弹框内容
+        </div>
+    </div>
+<script src="./js/jquery-1.11.0.min.js"></script>
+<script src="./js/digbox.js"></script>
+<script>
+$(function(){
+    $(".btn1").digMax({
+        txtOld: '这是按钮1',
+        txtNew: '点我点我',
+        changetxt:"change",
+        onClick: function(){
+            alert('你点我了！');
+        }
+    });
+
+    $(".btn2").digMax({dShow:"true",blur:"true"});
+
+    $(".btn3").digMax();
+})
+</script>
+</body>
+</html>
