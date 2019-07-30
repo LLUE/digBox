@@ -28,9 +28,11 @@ $(function() {
 	    		if(options.dShow == 'false'){
 	    			$this.open(target, options);
 	    		}else{
-		    		if((options.dShow == 'true')&&(options.changetxt == 'change')){
-			    		options.onClick();
-			    	}
+		    		if((options.btnSwitch == 'true')&&(options.changetxt == 'change')){
+			    		options.onClick(target, options);
+			    	}else{
+                        $this.closed(target, options);
+                    }
 		    	}
 		    })
 		    $("[d-module]").on('click tap','.dig-hd-lef',function(){
@@ -91,6 +93,8 @@ $(function() {
     	closed: function(target, ops, modue){
 	    	ops.dShow = 'false';
 	    	$(target).attr('d-show') && $(target).attr('d-show','false');
+            var dBox = $(target).attr('d-box');
+            modue = modue || $(".digBox[d-module='"+dBox+"']");
     		
 	    	modue.addClass("digboxDown").removeClass("digboxUp");
 	    	modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
@@ -110,6 +114,7 @@ $(function() {
         txtOld: '',
         txtNew: '确定',
         blur: 'false',
+        btnSwitch: 'false',
         onClick: function(){}
     };
 })
