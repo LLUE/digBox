@@ -212,7 +212,7 @@ $(function() {
 					console.log(el)
 					setTimeout(function(){
 						$(e).css({marginLeft:0});
-					},200)
+					},400)
 				});
 			}
 		},
