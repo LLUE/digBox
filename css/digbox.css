@@ -87,9 +87,9 @@
 }
 .digBox{
 	position: fixed;
-	transform: translate(0,100%);
+	transform: translateY(100%);
 	left: 0;
-	right: 0;
+	width: 100%;
 	bottom: 0;
 	background: #fff;
 	z-index: 9;
@@ -110,21 +110,21 @@
 }
 @-webkit-keyframes digboxUp {
     0% {
-        -webkit-transform: translate(0,100%);
+        -webkit-transform: translateY(100%);
         opacity: 0;
     }
     100% {
-        -webkit-transform: translate(0,0);
+        -webkit-transform: translateY(0);
         opacity: 1;
     }
 }
 @keyframes digboxUp {
     0% {
-        transform: translate(0,100%);
+        transform: translateY(100%);
         opacity: 0;
     }
     100% {
-        transform: translate(0,0);
+        transform: translateY(0);
         opacity: 1;
     }
 }
@@ -136,23 +136,23 @@ animation-name: digboxUp;
 }
 @-webkit-keyframes digboxDown {
     0% {
-        -webkit-transform: translate(0,0);
+        -webkit-transform: translateY(0);
         opacity: 1;
     }
 
     100% {
-        -webkit-transform: translate(0,100%);
+        -webkit-transform: translateY(100%);
         opacity: 0;
     }
 }
 @keyframes digboxDown {
     0% {
-        transform: translate(0,0);
+        transform: translateY(0);
         opacity: 1;
     }
 
     100% {
-        transform: translate(0,100%);
+        transform: translateY(100%);
         opacity: 0;
     }
 }

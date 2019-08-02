@@ -33,7 +33,7 @@
         <h2>底部弹框示例</h2>
         <p>底部按钮：点击弹框</p>
         <button class="btn btn2" d-box="box2">这是按钮2</button>
-        <button class="btn btn3" d-box="box3" d-show="true">这是按钮3</button>
+        <button class="btn btn3" d-box="box3">这是按钮3</button>
     </div>
     
     <button class="btn btn1" d-box="box1"></button>
@@ -56,7 +56,11 @@
             <div class="dig-hd-rig">总计 <span class="bids">12</span> 条</div>
         </div>
         <div class="dig-bd" style="padding-top: 10px">
-            这是按钮222的弹框内容
+            这是按钮222的弹框内容<br>
+            这是按钮222的弹框内容<br>
+            这是按钮222的弹框内容<br>
+            这是按钮222的弹框内容<br>
+            这是按钮222的弹框内容<br>
         </div>
     </div>
     <!-- 弹窗3 -go -->
@@ -84,7 +88,7 @@ $(function(){
         }
     });
 
-    $(".btn2").digMax({dShow:"true",blur:"true"});
+    $(".btn2").digMax({blur:"true"});// dShow:"true",
 
     $(".btn3").digMax();
 })
