@@ -45,16 +45,9 @@ $(function() {
 			});
 			var dBox = $(target).attr("d-box");
 			var modue = $(".digBox[d-module='"+dBox+"']");
-    		$(modue).data("modue",thOps);
-			$this.initDrag(modue, thOps);
-    	},
-    	onload:function(target, ops){
-            var $this = this;
-            ops.txtOld = $(target).html() || ops.txtOld;
-            $(target).html(ops.txtOld)
-    		ops.dShow = $(target).attr("d-show") || ops.dShow;
-    		if(ops.dShow == 'true'){
-    			$this.open(target, ops);
+    		if(typeof(dBox) != "undefined"){
+	    		$(modue).data("modue",thOps);
+    			$this.initDrag(modue, thOps);
     		}
     	},
     	clickInit:function(target, ops){
@@ -71,6 +64,18 @@ $(function() {
 		    		}
 		    	}
 	    	})
+    	},
+    	onload:function(target, ops){
+            var $this = this;
+            ops.txtOld = $(target).html() || ops.txtOld;
+            $(target).html(ops.txtOld)
+    		ops.dShow = $(target).attr("d-show") || ops.dShow;
+			var dBox = $(target).attr("d-box");
+    		if(typeof(dBox) != "undefined"){
+	    		if(ops.dShow == 'true'){
+	    			$this.open(target, ops);
+	    		}
+    		}
     	},
     	open: function(target, ops){
     		var $this   = this;
@@ -96,7 +101,7 @@ $(function() {
                 $(".box").addClass("blur");
             }
     	},
-    	closed: function(target, ops, modue){
+    	closed: function(target, ops, modue, callback){
 	    	ops.dShow = 'false';
 	    	$(target).attr('d-show') && $(target).attr('d-show','false');
             var dBox = $(target).attr('d-box');
@@ -110,11 +115,15 @@ $(function() {
 			
             if(ops.blur == 'true'){
                 $(".box").removeClass("blur");
-            }
+			}
+			if(!!callback){
+				$(modue).bind('animationEnd webkitAnimationEnd', function(){
+					callback();
+				})
+			}
 		},
 		initDrag:function(e, thOps){
 			//需拖动的元素
-
 			thOps.dragEle = e || thOps.dragEle;
 			var len = thOps.dragEle.length
 			if(!!len) {
@@ -144,11 +153,8 @@ $(function() {
 			}
 		},
 		touchstart: function(e){
-			e.preventDefault();
-			e.stopPropagation();
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
-			// console.log("开始了",e)
 			//执行定义在拖动开始时须执行的函数， 参数为即将拖动的元素
 			// thOps.onStart(tar);
 			//初始化拖动元素的位置信息；
@@ -161,12 +167,10 @@ $(function() {
 			thOps.startY = e.pageY || e.touches[0].pageY;
 			//重置移动参数
 			thOps.moveX = thOps.moveY = 0;
-			console.log("开始了"+thOps.startX);
 		},
 		touchmove: function(e){
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
-			// thOps.onMove(tar);
 			thOps.nowX = e.pageX || e.touches[0].pageX;
 			thOps.nowY = e.pageY || e.touches[0].pageY;
 		
@@ -174,95 +178,66 @@ $(function() {
 			thOps.moveX = thOps.nowX - thOps.startX;
 			thOps.moveY = thOps.nowY - thOps.startY;
 		
-			//检测是否越界，并调整
-			console.log("移动中"+thOps.moveX);
-			// this.checkOver(thOps.moveX, thOps.moveY, thOps);
-			
-			//进行拖动元素移动操作
+			// thOps.onMove(tar);
 			this.setMove(tar, '', thOps);
-		
-			//检测是否落入目标位置
-			// this.checkPos('move', tar, thOps);
-		
 		},
 		touchend: function(e) {
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
-			console.log("结束了");
 			
-			//目标区域的视觉变化
-			//检测最终位置
-			// this.checkPos('end', e.target, thOps);
+			// thOps.onEnd(tar);
 			this.posEnd(tar,thOps);
 		},
 		posEnd: function(e,thOps){
+			var $this = this;
 			var x = thOps.moveX || 0,
 				y = thOps.moveY || 0,
 				w = thOps.dragW || 0;
-				var $this = this;
-
 			if(x<w/3){
-				$(e).animate({marginLeft:0},300);
+				$(e).animate({marginLeft:0,opacity:1},300);
 			}else{
-				var md = $(e).attr("d-module");
-				var el = $('[d-box='+md+']');
-				var ops = el.data("digMax");
-				$(e).animate({marginLeft:w},300,function(){
-					$this.closed(el, ops.options);
-					console.log(el)
-					setTimeout(function(){
-						$(e).css({marginLeft:0});
-					},400)
-				});
-			}
-		},
-		checkPos: function(type, e, thOps) {
-
-			//判断拖动元素是否到达目标位置，判断方式更具情况而定，此处判断的依据是：touch事件位置判断，即结束时touch的位置是否在目标区域位置
-			if(thOps.nowX > thOps.tarL && thOps.nowX < thOps.tarL + thOps.tarW &&  thOps.nowY > thOps.tarT && thOps.nowY < thOps.tarT + thOps.tarH) {
-				//进入目标区域
-				if(type === 'move' && !!thOps.tarEle) {
-					//在移动过程中，进入目标区域
-					thOps.onMoveIn(thOps.tarEle);
-				} else {
-					//在拖动结束时进入目标区域
-					thOps.onEnd(e);
-				}
-			} else {
-				thOps.tarEle.style.cssText = "opacity: .5;"
-				if(type === 'end'){
-					this.resetFun(e,'end', thOps);
-				}
-			}
-		},
-		checkOver: function(moveX, moveY, thOps) {
-			//检测元素是否越界
-			console.log(moveX, moveY)
-			var overW = thOps.dragW /2,
-				overH = thOps.dragH /2;
-			if(moveX > overW) {
-				console.log("要笑死啦");
+				$this.resetFun(e,thOps);
 			}
 		},
 		resetFun: function(e, thOps) {
 			thOps.moveX = thOps.moveY = 0;
 			thOps.startX = thOps.startY = 0;
-			thOps.nowY = thOps.top;
-			thOps.nowX = thOps.left;
+			thOps.nowY = 0;
+			thOps.nowX = 0;
 			this.setMove(e, 'reset', thOps);
 		},
 		setMove: function(e, type, thOps) {
-			var x = thOps.moveX || 0,
-				y = thOps.moveY || 0;
+			var $this = this;
+			var x = thOps.moveX || 0;
 			if(type === 'reset') {
 				// e.style.cssText = '';
+				var md = $(e).attr("d-module");
+				var el = $('[d-box='+md+']');
+				var ops = el.data("digMax");
+				$(e).animate({marginLeft:thOps.dragW,opacity:0},200,function(){
+					$this.closed(el, ops.options, $(e), function(){
+						$(e).css({marginLeft:0, opacity:1});
+					});
+				});
 				return;
 			}
 			if(x<0){
 				return
 			};
-			e.style.cssText = 'margin-left:'+x+'px';
-			
+			e.style.cssText = 'margin-left:'+x+'px;opacity:'+this.parabola(x);
+		},
+		parabola: function(x){
+			var x1 = 0,
+				y1 = 1,
+				x3 = 750,
+				y3 = 0,
+				x2 = 300,
+				y2 = 0.5;
+			var a, b, c;
+			b = ((y1-y3)*(x1*x1-x2*x2)-(y1-y2)*(x1*x1-x3*x3))/((x1-x3)*(x1*x1-x2*x2)-(x1-x2)*(x1*x1-x3*x3)); 
+			a = ((y1-y2)-b*(x1-x2))/(x1*x1-x2*x2);
+			c = y1-a*x1*x1-b*x1;
+			return a*x*x + b*x + c;
 		},
 	}
 	$.fn.digMax.touch = {
@@ -283,7 +258,7 @@ $(function() {
 		onStart: function(e){console.log('我被抓住了');},
 		onMove: function(e){console.log('我移动了');},
 		onMoveIn: function(e){},
-		onEnd: function(e){},
+		onEnd: function(e){console.log("结束了");},
 	}
 
     $.fn.digMax.defaults = {

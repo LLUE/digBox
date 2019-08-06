@@ -95,14 +95,13 @@
 	z-index: 9;
 	padding-bottom: 52px;
 	border-radius: 15px 15px 0 0;
-	opacity: .5;
+	/* opacity: .5; */
 }
-
 .animated {
-    -webkit-animation-duration: .5s;
-    -moz-animation-duration: .5s;
-    -o-animation-duration: .5s;
-    animation-duration: .5s;
+    -webkit-animation-duration: .4s;
+    -moz-animation-duration: .4s;
+    -o-animation-duration: .4s;
+    animation-duration: .4s;
     -webkit-animation-fill-mode: both;
     -moz-animation-fill-mode: both;
     -o-animation-fill-mode: both;
@@ -111,21 +110,21 @@
 @-webkit-keyframes digboxUp {
     0% {
         -webkit-transform: translateY(100%);
-        opacity: 0;
+        /* opacity: 0; */
     }
     100% {
         -webkit-transform: translateY(0);
-        opacity: 1;
+        /* opacity: 1; */
     }
 }
 @keyframes digboxUp {
     0% {
         transform: translateY(100%);
-        opacity: 0;
+        /* opacity: 0; */
     }
     100% {
         transform: translateY(0);
-        opacity: 1;
+        /* opacity: 1; */
     }
 }
 .animated.digboxUp {
@@ -137,23 +136,23 @@ animation-name: digboxUp;
 @-webkit-keyframes digboxDown {
     0% {
         -webkit-transform: translateY(0);
-        opacity: 1;
+        /* opacity: 1; */
     }
 
     100% {
         -webkit-transform: translateY(100%);
-        opacity: 0;
+        /* opacity: 0; */
     }
 }
 @keyframes digboxDown {
     0% {
         transform: translateY(0);
-        opacity: 1;
+        /* opacity: 1; */
     }
 
     100% {
         transform: translateY(100%);
-        opacity: 0;
+        /* opacity: 0; */
     }
 }
 .animated.digboxDown {
