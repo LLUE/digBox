@@ -226,7 +226,7 @@ $(function() {
 				});
 				$(e).next(".digBoxMak").animate({
 					opacity: 0
-				});
+				},100);
 				return;
 			}
 			if(x<0){
