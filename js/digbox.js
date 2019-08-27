@@ -90,13 +90,15 @@ $(function() {
 
     		$('body').css({"overflow":"hidden"});
     		if(ops.changetxt == "change"){
-    			
     			$(target).html(ops.txtNew);
     		}
     		$(".digBox[d-module='"+dBox+"']").addClass("digboxUp").removeClass("digboxDown");
     		$(".digBox[d-module='"+dBox+"']").after(mak);
 
-            mak.addClass("makblock");
+			mak.addClass("makblock");
+			mak.animate({
+				opacity: 1
+			},100)
             if(ops.blur == 'true'){
                 $(".box").addClass("blur");
             }
@@ -106,8 +108,10 @@ $(function() {
 	    	$(target).attr('d-show') && $(target).attr('d-show','false');
             var dBox = $(target).attr('d-box');
             modue = modue || $(".digBox[d-module='"+dBox+"']");
-	    	modue.addClass("digboxDown").removeClass("digboxUp");
-	    	modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
+			modue.addClass("digboxDown").removeClass("digboxUp");
+			modue.next(".digBoxMak[d-mak]").animate({opacity: 0},100,function(){
+				modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
+			});
 	    	if(ops.changetxt == "change"){
 	    		$(target).html(ops.txtOld);
 	    	}
@@ -195,6 +199,7 @@ $(function() {
 				w = thOps.dragW || 0;
 			if(x<w/3){
 				$(e).animate({marginLeft:0,opacity:1},300);
+				$(e).next(".digBoxMak").animate({opacity: 1},200);
 			}else{
 				$this.resetFun(e,thOps);
 			}
@@ -219,12 +224,18 @@ $(function() {
 						$(e).css({marginLeft:0, opacity:1});
 					});
 				});
+				$(e).next(".digBoxMak").animate({
+					opacity: 0
+				});
 				return;
 			}
 			if(x<0){
 				return
 			};
 			e.style.cssText = 'margin-left:'+x+'px;opacity:'+this.parabola(x);
+			$(e).next(".digBoxMak").css({
+				opacity: this.parabola(x)
+			});
 		},
 		parabola: function(x){
 			var x1 = 0,
