@@ -159,6 +159,11 @@ $(function() {
 		touchstart: function(e){
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
+			clearInterval(thOps.times);
+			thOps.sod = 0;
+			thOps.times = setInterval(function(){
+				thOps.sod++
+			}, 50);
 			//执行定义在拖动开始时须执行的函数， 参数为即将拖动的元素
 			// thOps.onStart(tar);
 			//初始化拖动元素的位置信息；
@@ -188,7 +193,8 @@ $(function() {
 		touchend: function(e) {
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
-			
+			clearInterval(thOps.times);
+
 			// thOps.onEnd(tar);
 			this.posEnd(tar,thOps);
 		},
@@ -197,11 +203,17 @@ $(function() {
 			var x = thOps.moveX || 0,
 				y = thOps.moveY || 0,
 				w = thOps.dragW || 0;
-			if(x<w/3){
-				$(e).animate({marginLeft:0,opacity:1},300);
-				$(e).next(".digBoxMak").animate({opacity: 1},200);
-			}else{
+			var t = thOps.sod;
+			if(t<3&&x>2){
 				$this.resetFun(e,thOps);
+				thOps.sod = 0;
+			}else{
+				if(x<w/2.5){
+					$(e).animate({marginLeft:0,opacity:1},200);
+					$(e).next(".digBoxMak").animate({opacity: 1},200);
+				}else{
+					$this.resetFun(e,thOps);
+				}
 			}
 		},
 		resetFun: function(e, thOps) {
@@ -266,6 +278,8 @@ $(function() {
 		moveY: 0,
 		nowX: 0,
 		nowY: 0,
+		times: '',
+		sod: 0,
 		onStart: function(e){console.log('我被抓住了');},
 		onMove: function(e){console.log('我移动了');},
 		onMoveIn: function(e){},
