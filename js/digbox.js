@@ -204,7 +204,7 @@ $(function() {
 				y = thOps.moveY || 0,
 				w = thOps.dragW || 0;
 			var t = thOps.sod;
-			if(t<3&&x>2){
+			if(t<3 && x>2){
 				$this.resetFun(e,thOps);
 				thOps.sod = 0;
 			}else{
