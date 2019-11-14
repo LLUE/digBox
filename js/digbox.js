@@ -135,7 +135,7 @@ $(function() {
             modue = modue || $(".digBox[d-module='"+dBox+"']");
 			modue.addClass("digboxDown").removeClass("digboxUp");
 			modue.next(".digBoxMak[d-mak]").animate({opacity: 0,zIndex: -1},100,function(){
-				modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
+				$(this).removeClass("makblock").remove();
 			});
 	    	if(ops.btnNew){
 	    		$(target).html(ops.btnTxt);
