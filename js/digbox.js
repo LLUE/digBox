@@ -111,7 +111,6 @@ $(function() {
 
 	    	var dBox = $(target).attr("d-box");
 	    	var mak = $("<div class='digBoxMak' d-mak></div>").on('click',function(){
-	    		// var modue = $(".digBox[d-module='"+dBox+"']");
 	    		$this.closed(target, ops, modue);
 	    	});
 
@@ -170,13 +169,26 @@ $(function() {
 			}
 		},
 		addEvent: function(e,thOps) {
+			var $this = this;
 			for (var i = thOps.eventArr.length - 1; i >= 0; i--) {
-				e.addEventListener(thOps.eventArr[i], this[thOps.eventArr[i]].bind(this), false);
+				if(thOps.eventArr[i] == 'mouseup'){
+					e.addEventListener(thOps.eventArr[i], $this.touchend.bind(this), false);
+				}
+				if(thOps.eventArr[i] == 'mousedown'){
+					e.addEventListener(thOps.eventArr[i], $this.touchstart.bind(this), false);
+				}
+				if($this[thOps.eventArr[i]]){
+					e.addEventListener(thOps.eventArr[i], this[thOps.eventArr[i]].bind(this), false);
+				}
+				// e.addEventListener(thOps.eventArr[i], this[thOps.eventArr[i]].bind(this), false);
 			}
 		},
 		touchstart: function(e){
+			var $this = this;
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
+			$(tar).on("mousemove",$this,$this.touchmove);
+
 			clearInterval(thOps.times);
 			thOps.sod = 0;
 			thOps.times = setInterval(function(){
@@ -196,6 +208,7 @@ $(function() {
 			thOps.moveX = thOps.moveY = 0;
 		},
 		touchmove: function(e){
+			var $this = this;
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
 			thOps.nowX = e.pageX || e.touches[0].pageX;
@@ -206,13 +219,14 @@ $(function() {
 			thOps.moveY = thOps.nowY - thOps.startY;
 		
 			// thOps.onMove(tar);
-			this.setMove(tar, '', thOps);
+			$this = $.isFunction($this.setMove) ? $this : e.data;
+			$this.setMove(tar, '', thOps);
 		},
 		touchend: function(e) {
 			var tar = e.target.closest("[d-module]");
 			var thOps = $(tar).data("modue");
+			$(tar).off("mousemove");
 			clearInterval(thOps.times);
-
 			// thOps.onEnd(tar);
 			this.posEnd(tar,thOps);
 		},
@@ -284,7 +298,7 @@ $(function() {
 	}
 	$.fn.digMax.touch = {
 		ua:navigator.userAgent,
-		eventArr:  ['touchstart', 'touchmove', 'touchend'],
+		eventArr:  ['touchstart', 'touchmove', 'touchend','mousedown','mousemove','mouseup'],
 		dragEle: '',
 		dragT: 0,
 		dragL: 0,
