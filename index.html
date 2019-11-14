@@ -65,15 +65,13 @@
 <script>
 $(function(){
 
-    var cen = $('<span style="color: #f80;">自定义的内容</span>')
+    var cen = $('<span style="color: #f80;">这是弹框1的自定义的内容</span>')
     $(".btn1").digMax({
         // dShow: true,
-        txtOld: '这是按钮1',
-        txtNew: '点我点我',
 		title: '自定义的标题',
 		content: cen,
-        changetxt:"change",
-    	btnSwitch: true,
+        btnTxt: '这是按钮1',
+        btnNew: '点我点我',
         onClick: function(){
             alert('你点我了！');
         }

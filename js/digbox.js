@@ -25,14 +25,13 @@ $(function() {
 				options.onClosed(target, options,$this.closed);
 				
 				$(target).on('click tap',function(e){
-					var d_show = ($(target).attr("d-show") == "true") ? true : false
-					options.dShow = d_show || options.dShow;
+					options.dShow = (($(target).attr("d-show") == "true") ? true : false) || options.dShow;
 					$this.clickInit(target, options)
-					
 					if(options.dShow == false){
 						$this.open(target, options);
+						options.dShow == true
 					}else{
-						if((options.btnSwitch == true)&&(options.changetxt == 'change')){
+						if(options.btnNew){
 							options.onClick(target, options);
 						}else{
 							$this.closed(target, options);
@@ -62,7 +61,7 @@ $(function() {
 	    		if($(e).attr("d-box") !== dBox){
 	    			var othOps = $(e).data("digMax").options;
 	    			var show = (($(e).attr("d-show") == "true") ? true : false) || othOps.dShow;
-		    		if(show == "true"){
+		    		if(show == true){
 		    			var modue = $(".digBox[d-module='"+$(e).attr("d-box")+"']")
 		    			$this.closed(e, othOps, modue);
 		    		}
@@ -71,8 +70,8 @@ $(function() {
     	},
     	onload:function(target, ops){
             var $this = this;
-            ops.txtOld = $(target).html() || ops.txtOld;
-            $(target).html(ops.txtOld)
+            ops.btnTxt = $(target).html() || ops.btnTxt;
+            $(target).html(ops.btnTxt)
 			ops.dShow = (($(target).attr("d-show") == "true") ? true : false) || ops.dShow;
 			var dBox = $(target).attr("d-box");
     		if(typeof(dBox) != "undefined"){
@@ -117,8 +116,8 @@ $(function() {
 	    	});
 
     		$('body').css({"overflow":"hidden"});
-    		if(ops.changetxt == "change"){
-    			$(target).html(ops.txtNew);
+    		if(ops.btnNew){
+    			$(target).html(ops.btnNew);
     		}
     		$(".digBox[d-module='"+dBox+"']").addClass("digboxUp").removeClass("digboxDown");
     		$(".digBox[d-module='"+dBox+"']").after(mak);
@@ -140,8 +139,8 @@ $(function() {
 			modue.next(".digBoxMak[d-mak]").animate({opacity: 0},100,function(){
 				modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
 			});
-	    	if(ops.changetxt == "change"){
-	    		$(target).html(ops.txtOld);
+	    	if(ops.btnNew){
+	    		$(target).html(ops.btnTxt);
 	    	}
 			$('body').css({"overflow":"initial"});
 			
@@ -306,14 +305,12 @@ $(function() {
 	}
 
     $.fn.digMax.defaults = {
-		title: '这是标题',
-		content: '内容',
+		title: 'Title',
+		content: 'Content',
         dShow: false,
-        changetxt: 'normal', //是否改变按钮内容，不改：normal，改：change
-        txtOld: '',
-        txtNew: '确定',
+        btnTxt: '',
+        btnNew: null,
         blur: false,
-        btnSwitch: false,
         onClick: function(){},
         onClosed: function(){}
     };
