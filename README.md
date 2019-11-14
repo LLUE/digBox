@@ -8,11 +8,13 @@
 
 ##### 使用
 ```
-    $(".btn1").digMax({
-        btnTxt: '这是按钮1',
-        btnNew: '点我点我',
+    $(".btn").digMax({
+        dShow: true,
+        blur: true,
         title: '自定义的标题',
         content: '自定义的内容',
+        btnTxt: '这是按钮1',
+        btnNew: '点我点我',
         onClick: function(){
             alert('你点我了！');
         },
