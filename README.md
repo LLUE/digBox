@@ -31,8 +31,8 @@
 |content|string/code|添加弹框内容|
 |dShow|false/true|设置弹框初始化关/开（或者在按钮上设置属性d-show）|
 |blur|false/true|背景是否羽化|
-|txtOld|txt|按钮文字|
-|txtNew|txt|点击后设置新按钮文字|
+|txtOld|string|按钮文字|
+|txtNew|string|点击后设置新按钮文字|
 |changetxt|normal/change|点击后是否更改新按钮文字|
 |btnSwitch|false/true|onClick事件关/开|
 |onClick|function|重定义的按钮点击事件|

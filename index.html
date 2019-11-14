@@ -67,19 +67,19 @@ $(function(){
 
     var cen = $('<span style="color: #f80;">自定义的内容</span>')
     $(".btn1").digMax({
-        // dShow:"true",
+        // dShow: true,
         txtOld: '这是按钮1',
         txtNew: '点我点我',
 		title: '自定义的标题',
 		content: cen,
         changetxt:"change",
-    	btnSwitch:"true",
+    	btnSwitch: true,
         onClick: function(){
             alert('你点我了！');
         }
     });
 
-    $(".btn2").digMax({blur:"true"});
+    $(".btn2").digMax({blur: true});
 
     $(".btn3").digMax({
         onClosed: function(el,ops,closed){

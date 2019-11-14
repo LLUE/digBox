@@ -25,10 +25,11 @@ $(function() {
 				options.onClosed(target, options,$this.closed);
 				
 				$(target).on('click tap',function(e){
-					options.dShow = $(target).attr("d-show") || options.dShow;
+					var d_show = ($(target).attr("d-show") == "true") ? true : false
+					options.dShow = d_show || options.dShow;
 					$this.clickInit(target, options)
 					
-					if(options.dShow == 'false'){
+					if(options.dShow == false){
 						$this.open(target, options);
 					}else{
 						if((options.btnSwitch == 'true')&&(options.changetxt == 'change')){
@@ -60,7 +61,7 @@ $(function() {
 	    	dBoxAll.each(function(i,e){
 	    		if($(e).attr("d-box") !== dBox){
 	    			var othOps = $(e).data("digMax").options;
-	    			var show = $(e).attr("d-show") || othOps.dShow;
+	    			var show = (($(e).attr("d-show") == "true") ? true : false) || othOps.dShow;
 		    		if(show == "true"){
 		    			var modue = $(".digBox[d-module='"+$(e).attr("d-box")+"']")
 		    			$this.closed(e, othOps, modue);
@@ -72,10 +73,10 @@ $(function() {
             var $this = this;
             ops.txtOld = $(target).html() || ops.txtOld;
             $(target).html(ops.txtOld)
-    		ops.dShow = $(target).attr("d-show") || ops.dShow;
+			ops.dShow = (($(target).attr("d-show") == "true") ? true : false) || ops.dShow;
 			var dBox = $(target).attr("d-box");
     		if(typeof(dBox) != "undefined"){
-	    		if(ops.dShow == 'true'){
+	    		if(ops.dShow == true){
 	    			$this.open(target, ops);
 	    		}
     		}
@@ -104,7 +105,7 @@ $(function() {
 		},
     	open: function(target, ops){
     		var $this   = this;
-	    	ops.dShow = 'true';
+	    	ops.dShow = true;
 			$(target).attr('d-show') && $(target).attr('d-show','true');
 			
 			var modue =$this.modue(target, ops);
@@ -126,12 +127,12 @@ $(function() {
 			mak.animate({
 				opacity: 1
 			},100)
-            if(ops.blur == 'true'){
+            if(ops.blur == true){
                 $(".box").addClass("blur");
             }
     	},
     	closed: function(target, ops, modue, callback){
-	    	ops.dShow = 'false';
+	    	ops.dShow = false;
 	    	$(target).attr('d-show') && $(target).attr('d-show','false');
             var dBox = $(target).attr('d-box');
             modue = modue || $(".digBox[d-module='"+dBox+"']");
@@ -144,7 +145,7 @@ $(function() {
 	    	}
 			$('body').css({"overflow":"initial"});
 			
-            if(ops.blur == 'true'){
+            if(ops.blur == true){
                 $(".box").removeClass("blur");
 			}
 			if(!!callback){
@@ -307,12 +308,12 @@ $(function() {
     $.fn.digMax.defaults = {
 		title: '这是标题',
 		content: '内容',
-        dShow: 'false',
+        dShow: false,
         changetxt: 'normal', //是否改变按钮内容，不改：normal，改：change
         txtOld: '',
         txtNew: '确定',
-        blur: 'false',
-        btnSwitch: 'false',
+        blur: false,
+        btnSwitch: false,
         onClick: function(){},
         onClosed: function(){}
     };
