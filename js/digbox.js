@@ -32,7 +32,7 @@ $(function() {
 					if(options.dShow == false){
 						$this.open(target, options);
 					}else{
-						if((options.btnSwitch == 'true')&&(options.changetxt == 'change')){
+						if((options.btnSwitch == true)&&(options.changetxt == 'change')){
 							options.onClick(target, options);
 						}else{
 							$this.closed(target, options);
