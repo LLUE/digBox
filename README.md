@@ -8,6 +8,8 @@
 
 ##### 使用
 ```
+    var closedBtn = $(".closedBtn")
+    
     $(".btn").digMax({
         dShow: true,
         blur: true,
@@ -19,7 +21,9 @@
             alert('你点我了！');
         },
         onClosed: function(el,ops,closed){
-            closed(el,ops)// 强行写死了的关闭窗口函数 = =！
+            closedBtn.on("click",function(){
+                closed(el,ops)    // 强行写死了的关闭窗口函数 = =！
+            })
         }
     });
 ```
