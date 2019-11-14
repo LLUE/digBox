@@ -11,8 +11,8 @@
     $(".btn1").digMax({
         txtOld: '这是按钮1',
         txtNew: '点我点我',
-		title: '自定义的标题',
-		content: '自定义的内容',
+        title: '自定义的标题',
+        content: '自定义的内容',
         changetxt:"change",
         btnSwitch:"true",
         onClick: function(){
