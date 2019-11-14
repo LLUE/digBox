@@ -7,7 +7,7 @@ $(function() {
     			return $.fn.digMax.methods[arguments[0]](this, arguments);
     		}
     	}
-    });
+	});
 
     $.fn.digMax.methods = {
     	options: function (target) {
@@ -15,40 +15,43 @@ $(function() {
     		return opts;
     	},
     	init: function(target, ops){
-    		var $this   = this;
-    		var options = $.extend({}, $.fn.digMax.defaults, ops);
-    		var thOps = $.extend({}, $.fn.digMax.touch);
-    		$(target).data("digMax", { options: options });
-    		
-			$this.onload(target,options);
-			
-
-    		$(target).on('click tap',function(e){
-    			options.dShow = $(target).attr("d-show") || options.dShow;
-    			$this.clickInit(target, options)
-		    	
-	    		if(options.dShow == 'false'){
-	    			$this.open(target, options);
-	    		}else{
-		    		if((options.btnSwitch == 'true')&&(options.changetxt == 'change')){
-			    		options.onClick(target, options);
-			    	}else{
-                        $this.closed(target, options);
-                    }
-		    	}
-		    });
-		    $("[d-module]").on('click tap','.dig-hd-lef',function(){
-		    	var modue = $(this).closest(".digBox[d-module]");
-		    	if(modue.attr('d-module') ==$(target).attr('d-box')){
-		    		$this.closed(target, options, modue);
-		    	}
-			});
-			var dBox = $(target).attr("d-box");
-			var modue = $(".digBox[d-module='"+dBox+"']");
-    		if(typeof(dBox) != "undefined"){
-	    		$(modue).data("modue",thOps);
-    			$this.initDrag(modue, thOps);
-    		}
+			if(target.attr("d-box")){
+				var $this   = this;
+				var options = $.extend({}, $.fn.digMax.defaults, ops);
+				var thOps = $.extend({}, $.fn.digMax.touch);
+				$(target).data("digMax", { options: options });
+				
+				$this.onload(target,options);
+				options.onClosed(target, options,$this.closed);
+				
+				$(target).on('click tap',function(e){
+					options.dShow = $(target).attr("d-show") || options.dShow;
+					$this.clickInit(target, options)
+					
+					if(options.dShow == 'false'){
+						$this.open(target, options);
+					}else{
+						if((options.btnSwitch == 'true')&&(options.changetxt == 'change')){
+							options.onClick(target, options);
+						}else{
+							$this.closed(target, options);
+						}
+					}
+				});
+				var modue = $this.modue(target, options);
+				modue.on('click tap','.dig-hd-lef',function(){
+					if(modue.attr('d-module') ==$(target).attr('d-box')){
+						$this.closed(target, options, modue);
+					}
+				});
+				var dBox = $(target).attr("d-box");
+				modue = $(".digBox[d-module='"+dBox+"']") || modue;
+				if(typeof(dBox) != "undefined"){
+					$(modue).data("modue",thOps);
+					$this.initDrag(modue, thOps);
+				}
+				
+			}
     	},
     	clickInit:function(target, ops){
     		var $this = this;
@@ -76,15 +79,39 @@ $(function() {
 	    			$this.open(target, ops);
 	    		}
     		}
-    	},
+		},
+		modue:function(target, ops){
+			var $this   = this;
+			var dBox = $(target).attr("d-box");
+			var modue,m,h,b;
+			modue = $(".digBox[d-module='"+dBox+"']");
+			if(modue.length>0){
+				modue = $(".digBox[d-module='"+dBox+"']");
+			}else{
+				m = $('<div class="digBox animated displayonly" d-module="'+dBox+'"></div>');
+				h ='<div class="dig-hd chj">'+
+						'<div class="dig-hd-lef">取消</div>'+
+						'<div class="dig-hd-til">'+ops.title+'</div>'+
+					'</div>';
+				m.append(h);
+				b = $('<div class="dig-bd"></div>')
+				b.append(ops.content)
+				m.append(b);
+				modue = m;
+				$("body").append(modue);
+			}
+			return modue
+		},
     	open: function(target, ops){
     		var $this   = this;
 	    	ops.dShow = 'true';
-	    	$(target).attr('d-show') && $(target).attr('d-show','true');
+			$(target).attr('d-show') && $(target).attr('d-show','true');
+			
+			var modue =$this.modue(target, ops);
 
 	    	var dBox = $(target).attr("d-box");
 	    	var mak = $("<div class='digBoxMak' d-mak></div>").on('click',function(){
-	    		var modue = $(".digBox[d-module='"+dBox+"']");
+	    		// var modue = $(".digBox[d-module='"+dBox+"']");
 	    		$this.closed(target, ops, modue);
 	    	});
 
@@ -141,15 +168,6 @@ $(function() {
 			} else {
 				this.addEvent(thOps.dragEle,thOps);
 			}
-			if(!!thOps.tarEle) {
-				console.log(thOps.dragEle)
-				//目标位置的元素
-				thOps.tarEle = typeof thOps.tarEle === 'string' ? this.$(thOps.tarEle)[0] : this.opts.tarEle;
-				thOps.tarT = thOps.tarEle.offsetTop;
-				thOps.tarL = thOps.tarEle.offsetLeft;
-				thOps.tarW = thOps.tarEle.offsetWidth || thOps.tarEle.clientWidth;
-				thOps.tarH = thOps.tarEle.offsetHeight || thOps.tarEle.clientHeight;
-			} 
 		},
 		addEvent: function(e,thOps) {
 			for (var i = thOps.eventArr.length - 1; i >= 0; i--) {
@@ -226,6 +244,7 @@ $(function() {
 		setMove: function(e, type, thOps) {
 			var $this = this;
 			var x = thOps.moveX || 0;
+			
 			if(type === 'reset') {
 				// e.style.cssText = '';
 				var md = $(e).attr("d-module");
@@ -244,7 +263,7 @@ $(function() {
 			if(x<0){
 				return
 			};
-			e.style.cssText = 'margin-left:'+x+'px;opacity:'+this.parabola(x);
+			e.style.cssText = 'margin-left:'+x+'px;';
 			$(e).next(".digBoxMak").css({
 				opacity: this.parabola(x)
 			});
@@ -267,7 +286,6 @@ $(function() {
 		ua:navigator.userAgent,
 		eventArr:  ['touchstart', 'touchmove', 'touchend'],
 		dragEle: '',
-		tarEle: '',
 		dragT: 0,
 		dragL: 0,
 		dragW: 0,
@@ -287,12 +305,15 @@ $(function() {
 	}
 
     $.fn.digMax.defaults = {
+		title: '这是标题',
+		content: '内容',
         dShow: 'false',
         changetxt: 'normal', //是否改变按钮内容，不改：normal，改：change
         txtOld: '',
         txtNew: '确定',
         blur: 'false',
         btnSwitch: 'false',
-        onClick: function(){}
+        onClick: function(){},
+        onClosed: function(){}
     };
 })

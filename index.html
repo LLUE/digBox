@@ -33,36 +33,11 @@
         <h2>底部弹框示例</h2>
         <p>底部按钮：点击弹框</p>
         <button class="btn btn2" d-box="box2">这是按钮2</button>
-        <button class="btn btn3" d-box="box3">这是按钮3</button>
+        <button class="btn btn3" d-box="box3" d-show="true">这是按钮3</button>
     </div>
     
     <button class="btn btn1" d-box="box1"></button>
-    <!-- 弹窗1 -go -->
-    <div class="digBox animated displayonly" d-module="box1">
-        <div class="dig-hd chj">
-            <div class="dig-hd-lef">取消</div>
-            <div class="dig-hd-til">弹窗1111</div>
-            <div class="dig-hd-rig">总计 <span class="bids">12</span> 条</div>
-        </div>
-        <div class="dig-bd" style="padding-top: 10px">
-           这是按钮111的弹框
-        </div>
-    </div>
-    <!-- 弹窗2 -go -->
-    <div class="digBox animated displayonly" d-module="box2">
-        <div class="dig-hd chj">
-            <div class="dig-hd-lef">取消</div>
-            <div class="dig-hd-til">弹窗2222</div>
-            <div class="dig-hd-rig">总计 <span class="bids">12</span> 条</div>
-        </div>
-        <div class="dig-bd" style="padding-top: 10px">
-            这是按钮222的弹框内容<br>
-            这是按钮222的弹框内容<br>
-            这是按钮222的弹框内容<br>
-            这是按钮222的弹框内容<br>
-            这是按钮222的弹框内容<br>
-        </div>
-    </div>
+
     <!-- 弹窗3 -go -->
     <div class="digBox animated displayonly" d-module="box3">
         <div class="dig-hd chj">
@@ -71,16 +46,32 @@
             <div class="dig-hd-rig">总计 <span class="bids">3</span> 条</div>
         </div>
         <div class="dig-bd" style="padding-top: 10px">
-            这是按钮333的弹框内容
+            <ul>
+                <li>这是按钮333的弹框内容</li>
+                <li>这是按钮333的弹框内容</li>
+                <li>这是按钮333的弹框内容</li>
+                <li>这是按钮333的弹框内容</li>
+                <li>----------------------------</li>
+                <li class="close" style="color: #f80;">--要不要点我一下试试看--</li>
+                <li>----------------------------</li>
+                <li>这是按钮333的弹框内容</li>
+                <li>这是按钮333的弹框内容</li>
+                <li>这是按钮333的弹框内容</li>
+            </ul>
         </div>
     </div>
 <script src="./js/jquery-1.11.0.min.js"></script>
 <script src="./js/digbox.js"></script>
 <script>
 $(function(){
+
+    var cen = $('<span style="color: #f80;">自定义的内容</span>')
     $(".btn1").digMax({
+        // dShow:"true",
         txtOld: '这是按钮1',
         txtNew: '点我点我',
+		title: '自定义的标题',
+		content: cen,
         changetxt:"change",
     	btnSwitch:"true",
         onClick: function(){
@@ -88,9 +79,15 @@ $(function(){
         }
     });
 
-    $(".btn2").digMax({blur:"true"});// dShow:"true",
+    $(".btn2").digMax({blur:"true"});
 
-    $(".btn3").digMax();
+    $(".btn3").digMax({
+        onClosed: function(el,ops,closed){
+            $(".close").on("click",function(){
+                closed(el,ops)
+            })
+        }
+    });
 })
 </script>
 </body>
