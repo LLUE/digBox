@@ -22,7 +22,7 @@ $(function() {
 				$(target).data("digMax", { options: options });
 				
 				$this.onload(target,options);
-				options.onClosed(target, options,$this.closed);
+				options.onClosed(target, options, $this.closed);
 				
 				$(target).on('click tap',function(e){
 					options.dShow = (($(target).attr("d-show") == "true") ? true : false) || options.dShow;
