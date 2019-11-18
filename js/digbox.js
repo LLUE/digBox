@@ -1,3 +1,7 @@
+/***
+ * Author: mochyli@163.com
+ * Date: 2019.11.16
+***/
 $(function() {
     $.fn.extend({
     	digMax: function (ops) {
@@ -21,8 +25,11 @@ $(function() {
 				var thOps = $.extend({}, $.fn.digMax.touch);
 				$(target).data("digMax", { options: options });
 				
+				var dBox = $(target).attr("d-box");
+				var modue = $this.modue(target, options);
+
 				$this.onload(target,options);
-				options.onClosed(target, options, $this.closed);
+				options.onClosed(target, options,$this.closed);
 				
 				$(target).on('click tap',function(e){
 					options.dShow = (($(target).attr("d-show") == "true") ? true : false) || options.dShow;
@@ -38,20 +45,15 @@ $(function() {
 						}
 					}
 				});
-				var dBox = $(target).attr("d-box");
-				var modue = $this.modue(target, options);
-				modue = $(".digBox[d-module='"+dBox+"']") || modue;
-
 				modue.on('click tap','.dig-hd-lef',function(){
 					if(modue.attr('d-module') ==$(target).attr('d-box')){
-						$this.closed(target, options);
+						$this.closed(target, options, modue);
 					}
 				});
 				if(typeof(dBox) != "undefined"){
 					$(modue).data("modue",thOps);
 					$this.initDrag(modue, thOps);
 				}
-				
 			}
     	},
     	clickInit:function(target, ops){
@@ -61,9 +63,9 @@ $(function() {
 	    	dBoxAll.each(function(i,e){
 	    		if($(e).attr("d-box") !== dBox){
 	    			var othOps = $(e).data("digMax").options;
-	    			var show = (($(e).attr("d-show") == "true") ? true : false) || othOps.dShow;
+	    			var show = (($(e).attr("d-show") == "true") ? true : false) || ops.dShow;
 		    		if(show == true){
-		    			var modue = $(".digBox[d-module='"+$(e).attr("d-box")+"']")
+						var modue = $(".digBox[d-module='"+$(e).attr("d-box")+"']");
 		    			$this.closed(e, othOps, modue);
 		    		}
 		    	}
@@ -82,12 +84,11 @@ $(function() {
     		}
 		},
 		modue:function(target, ops){
-			var $this   = this;
 			var dBox = $(target).attr("d-box");
 			var modue,m,h,b;
 			modue = $(".digBox[d-module='"+dBox+"']");
 			if(modue.length>0){
-				modue = $(".digBox[d-module='"+dBox+"']");
+				modue = modue;
 			}else{
 				m = $('<div class="digBox animated displayonly" d-module="'+dBox+'"></div>');
 				h ='<div class="dig-hd chj">'+
@@ -107,18 +108,17 @@ $(function() {
     		var $this   = this;
 	    	ops.dShow = true;
 			$(target).attr('d-show') && $(target).attr('d-show','true');
-			
-	    	var dBox = $(target).attr("d-box");
+			var modue = $this.modue(target, ops);
 	    	var mak = $("<div class='digBoxMak' d-mak></div>").on('click',function(){
-	    		$this.closed(target, ops);
-			});
+	    		$this.closed(target, ops, modue);
+	    	});
 
     		$('body').css({"overflow":"hidden"});
     		if(ops.btnNew){
     			$(target).html(ops.btnNew);
     		}
-    		$(".digBox[d-module='"+dBox+"']").addClass("digboxUp").removeClass("digboxDown");
-    		$(".digBox[d-module='"+dBox+"']").after(mak);
+    		modue.addClass("digboxUp").removeClass("digboxDown");
+    		modue.after(mak);
 
 			mak.addClass("makblock");
 			mak.animate({
@@ -129,13 +129,14 @@ $(function() {
             }
     	},
     	closed: function(target, ops, modue, callback){
+			var $this = this;
 	    	ops.dShow = false;
 			$(target).attr('d-show') && $(target).attr('d-show','false');
-            var dBox = $(target).attr('d-box');
-            modue = modue || $(".digBox[d-module='"+dBox+"']");
+			var dBox = $(target).attr("d-box");
+            modue = modue || $(".digBox[d-module='"+dBox+"']") || $this.modue(target, ops);
 			modue.addClass("digboxDown").removeClass("digboxUp");
-			modue.next(".digBoxMak[d-mak]").animate({opacity: 0,zIndex: -1},100,function(){
-				$(this).removeClass("makblock").remove();
+			modue.next(".digBoxMak[d-mak]").animate({opacity: 0},100,function(){
+				modue.next(".digBoxMak[d-mak]").removeClass("makblock").remove();
 			});
 	    	if(ops.btnNew){
 	    		$(target).html(ops.btnTxt);
