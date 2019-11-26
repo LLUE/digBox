@@ -92,7 +92,7 @@ $(function() {
 			}else{
 				m = $('<div class="digBox animated displayonly" d-module="'+dBox+'"></div>');
 				h ='<div class="dig-hd chj">'+
-						'<div class="dig-hd-lef">取消</div>'+
+						'<div class="dig-hd-lef"><img src="./css/closed.svg" class="icon-close"></img></div>'+
 						'<div class="dig-hd-til">'+ops.title+'</div>'+
 					'</div>';
 				m.append(h);

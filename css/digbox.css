@@ -56,10 +56,13 @@
 	top: 0;
 	bottom: 0;
 	left: 10px;
-	padding-top: 17px;
+	padding-top: 12px;
 	font-size: 14px;
 	color: #aaa;
 	text-transform: capitalize;
+}
+.dig-hd-lef .icon-close{
+	width: 24px;
 }
 .dig-hd-rig{
 	position: absolute;
